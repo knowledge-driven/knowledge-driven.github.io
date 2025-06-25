@@ -85,4 +85,25 @@ $(document).ready(function() {
 
     // bulmaSlider.attach();
 
+  const selectElement = document.getElementById('mySelect');
+  const indexedDivs = document.querySelectorAll('.indexed-div');
+
+  // 初始加载时，根据 select 的默认选中项（这里是第一个，索引为0）显示对应的 div
+  showIndexedDiv(parseInt(selectElement.value));
+
+  selectElement.addEventListener('change', function() {
+    const selectedIndex = parseInt(this.value); // 将值转换为整数
+    console.log(this)
+    showIndexedDiv(selectedIndex);
+  });
+
+  function showIndexedDiv(indexToShow) {
+    indexedDivs.forEach((div, index) => {
+      if (index === indexToShow) {
+        div.style.display = 'block';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  }
 })

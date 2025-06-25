@@ -239,27 +239,39 @@
           <h2 class="title is-3">Experiments</h2>
         </div>
       </div>
+      <p>
+        We present videos below that showcase our method's performance on different tasks, including examples of both successes and failures. These videos are played back at 5x speed. The gripper opening and closing sections were not included 
+      </p>
 
-      <div class="is-centered has-text-centered">
+      <div class="select">
+        <select id="mySelect">
+          <option value="0">Seen objects</option>
+          <option value="1">Novel objects</option>
+          <option value="2">Novel Background</option>
+          <option value="3">Novel Light</option>
+        </select>
+      </div>
+
+      <div class="is-centered has-text-centered indexed-div" >
         <h2 class="subtitle">Seen objects</h2>
-        <div class="carousel results-carousel" data-name="mug40" data-num="10"></div>
-        <div class="carousel results-carousel" data-name="tool20" data-num="10"></div>
+        <div class="carousel results-carousel" data-name="mug40" data-num="20"></div>
+        <div class="carousel results-carousel" data-name="tool20" data-num="25"></div>
       </div>
 
-      <div class="is-centered has-text-centered">
+      <div class="is-centered has-text-centered indexed-div" >
         <h2 class="subtitle">Novel objects</h2>
-        <div class="carousel results-carousel" data-name="novelobj_mug40" data-num="5"></div>
-        <div class="carousel results-carousel" data-name="novelobj_tool20" data-num="5"></div>
+        <div class="carousel results-carousel" data-name="novelobj_mug40" data-num="10"></div>
+        <div class="carousel results-carousel" data-name="novelobj_tool20" data-num="10"></div>
       </div>
 
-      <div class="is-centered has-text-centered">
+      <div class="is-centered has-text-centered indexed-div" >
         <h2 class="subtitle">Novel Background</h2>
-        <div class="carousel results-carousel" data-name="background mug40" data-num="5"></div>
+        <div class="carousel results-carousel" data-name="background mug40" data-num="20"></div>
       </div>
 
-      <div class="is-centered has-text-centered">
+      <div class="is-centered has-text-centered indexed-div" >
         <h2 class="subtitle">Novel Light</h2>
-        <div class="carousel results-carousel" data-name="light mug40" data-num="5"></div>
+        <div class="carousel results-carousel" data-name="light mug40" data-num="20"></div>
       </div>
   </div>
 </section>
@@ -268,7 +280,13 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code></code></pre>
+    <pre><code>@inproceedings{miao2025Knowledge,
+  title={Knowledge-Driven Imitation Learning: Enabling Generalization Across Diverse Conditions},
+  author={Miao, Zhuochen and Lv, Jun and Fang, Hongjie and Jin, Yang and Lu, Cewu},
+  booktitle={2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year={2025},
+  organization={IEEE}
+}</code></pre>
   </div>
 </section>
 
