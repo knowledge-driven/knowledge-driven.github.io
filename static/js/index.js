@@ -1,89 +1,66 @@
 window.HELP_IMPROVE_VIDEOJS = false
 
-// var INTERP_BASE = "./static/interpolation/stacked";
-// var NUM_INTERP_FRAMES = 240;
-
-// var interp_images = [];
-// function preloadInterpolationImages() {
-//   for (var i = 0; i < NUM_INTERP_FRAMES; i++) {
-//     var path = INTERP_BASE + '/' + String(i).padStart(6, '0') + '.jpg';
-//     interp_images[i] = new Image();
-//     interp_images[i].src = path;
-//   }
-// }
-
-// function setInterpolationImage(i) {
-//   var image = interp_images[i];
-//   image.ondragstart = function() { return false; };
-//   image.oncontextmenu = function() { return false; };
-//   $('#interpolation-image-wrapper').empty().append(image);
-// }
-
-
 $(document).ready(function() {
-    // // Check for click events on the navbar burger icon
-    // $(".navbar-burger").click(function() {
-    //   // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-    //   $(".navbar-burger").toggleClass("is-active");
-    //   $(".navbar-menu").toggleClass("is-active");
 
-    // });
+  // 设置 IntersectionObserver
+  const videoObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      const video = entry.target;
 
-    const containers = document.getElementsByClassName('carousel')
-
-    for (let i=0;i<containers.length;i++){
-      const container = containers[i]
-      console.log(container.dataset)
-      const name = container.dataset.name
-      const num = Number(container.dataset.num)
-      for (let i=1;i<=num;i++){
-        const item = document.createElement('div')
-        item.classList.add('item')
-        const video = document.createElement('video')
-        video.src = `./static/videos/${name}/output/video_${i.toString().padStart(2,'0')}.mp4`
-        video.autoplay = true
-        video.controls = true
-        video.muted = true
-        // video.loop = true
-        video.playsInline = true
-        video.style.height = '100%'
-        // video.preload="none"
-        item.appendChild(video)
-        console.log(container, item)
-        container.appendChild(item)
+      if (entry.isIntersecting) {
+        // 视频进入视口时，加载并播放
+        if (!video.src) {
+          video.src = video.dataset.src;  // 使用 data-src 动态设置 video 的 src
+          video.load();  // 加载视频资源
+        }
+        video.play();
+      } else {
+        // 视频离开视口时，暂停并卸载资源
+        video.pause();
+        video.removeAttribute('src');  // 卸载 src 释放资源
+        video.load();  // 清理视频加载状态
       }
+    });
+  }, {
+    threshold: 0.25  // 视口中至少 25% 的视频可见时触发
+  });
+
+
+  const containers = document.getElementsByClassName('carousel')
+
+  for (let container of containers) {
+    console.log(container.dataset)
+    const name = container.dataset.name
+    const num = Number(container.dataset.num)
+    for (let i=1;i<=num;i++){
+      const item = document.createElement('div')
+      item.classList.add('item')
+      const video = document.createElement('video')
+      video.dataset.src = `./static/videos/${name}/output/video_${i.toString().padStart(2,'0')}.mp4`
+      video.autoplay = false
+      video.controls = true
+      video.muted = true
+      video.playsInline = true
+      video.style.height = '100%'
+
+      item.appendChild(video)
+      container.appendChild(item)
+
+      videoObserver.observe(video)
     }
+  }
 
-    var options = {
-			slidesToScroll: 1,
-			slidesToShow: 3,
-			loop: true,
-			infinite: true,
-			autoplay: false,
-			autoplaySpeed: 3000,
-    }
+  var carouselOptions = {
+    slidesToScroll: 1,
+    slidesToShow: 3,
+    loop: false,
+    infinite: false,
+    autoplay: false,
+    autoplaySpeed: 3000,
+  }
 
-		// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options)
-
-    // // Loop on each carousel initialized
-    // for(var i = 0; i < carousels.length; i++) {
-    // 	// Add listener to  event
-    // 	carousels[i].on('before:show', state => {
-    // 		console.log(state);
-    // 	});
-    // }
-
-    // // Access to bulmaCarousel instance of an element
-    // var element = document.querySelector('#my-element');
-    // if (element && element.bulmaCarousel) {
-    // 	// bulmaCarousel instance is available as element.bulmaCarousel
-    // 	element.bulmaCarousel.on('before-show', function(state) {
-    // 		console.log(state);
-    // 	});
-    // }
-
-    // bulmaSlider.attach();
+  // Initialize all div with carousel class
+  var carousels = bulmaCarousel.attach('.carousel', carouselOptions)
 
   const selectElement = document.getElementById('mySelect');
   const indexedDivs = document.querySelectorAll('.indexed-div');
@@ -93,17 +70,12 @@ $(document).ready(function() {
 
   selectElement.addEventListener('change', function() {
     const selectedIndex = parseInt(this.value); // 将值转换为整数
-    console.log(this)
     showIndexedDiv(selectedIndex);
   });
 
   function showIndexedDiv(indexToShow) {
-    indexedDivs.forEach((div, index) => {
-      if (index === indexToShow) {
-        div.style.display = 'block';
-      } else {
-        div.style.display = 'none';
-      }
-    });
+      indexedDivs.forEach((div, index) => {
+          div.style.display = (index === indexToShow) ? 'block' : 'none';
+      });
   }
 })
